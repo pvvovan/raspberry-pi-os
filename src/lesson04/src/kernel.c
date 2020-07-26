@@ -6,12 +6,29 @@
 #include "sched.h"
 #include "mini_uart.h"
 
+//static arch_spinlock_t s_sl;
+static long volatile s_simple_lock = 0;
+
+void spin_lock(void)
+{
+	//arch_spin_lock(&s_sl);
+	while (s_simple_lock != 0) { }
+	s_simple_lock = 1;
+}
+
+void spin_unlock(void)
+{
+	//arch_spin_unlock(&s_sl);
+	s_simple_lock = 0;
+}
+
 void process(char const *str)
 {
 	while (1) {
 		const char *ch_ptr = str;
 		static int counter = 0;
 
+		spin_lock();
 		++counter;
 		printf("\r\n%d: ", counter);
 
@@ -19,6 +36,8 @@ void process(char const *str)
 			uart_send(*ch_ptr++);
 			delay(100000);
 		}
+		spin_unlock();
+
 		delay(1000000);
 	}
 }
