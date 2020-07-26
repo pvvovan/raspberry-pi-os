@@ -10,7 +10,7 @@ When the kernel is started there is a single task running: init task. The corres
 
 ### Creating new tasks 
 
-In Linux it is not possible to create a new task from scratch - instead, all tasks are forked from a currently running task. Now, as we've seen from were the initial task came from, we can try to explore how new tasks can be created from it. 
+In Linux it is not possible to create a new task from scratch - instead, all tasks are forked from a currently running task. Now, as we've seen from where the initial task came from, we can try to explore how new tasks can be created from it. 
 
 There are 4 ways in which a new task can be created.
 
