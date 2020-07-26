@@ -6,13 +6,20 @@
 #include "sched.h"
 #include "mini_uart.h"
 
-void process(char *array)
+void process(char const *str)
 {
-	while (1){
-		for (int i = 0; i < 5; i++){
-			uart_send(array[i]);
+	while (1) {
+		const char *ch_ptr = str;
+		static int counter = 0;
+
+		++counter;
+		printf("\r\n%d: ", counter);
+
+		while ('\0' != *ch_ptr) {
+			uart_send(*ch_ptr++);
 			delay(100000);
 		}
+		delay(1000000);
 	}
 }
 
@@ -36,7 +43,7 @@ void kernel_main(void)
 		return;
 	}
 
-	while (1){
+	while (1) {
 		schedule();
 	}	
 }
